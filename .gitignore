@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.env/
+.venv/
+venv/
+.idea/
+.vscode/
+
+# El dataset es del administrador. Descomentado = NO se sube.
+dataset_senas.csv
+
+# IMPORTANTE: modelo_senas.joblib SÍ debe subirse, es lo que usa el usuario final.
+
+# --- SEGURIDAD: nunca subir la clave privada del administrador ---
+clave_privada_admin.pem
+*.pem
+!clave_publica.pem
+
+# La firma del modelo (modelo_senas.joblib.sig) y clave_publica.pem SÍ se suben.
