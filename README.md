@@ -60,7 +60,7 @@ python -m venv .venv
 # Linux / macOS
 source .venv/bin/activate
 
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
 Las versiones de `mediapipe` y `scikit-learn` están fijadas en `requirements.txt`. La de scikit-learn debe coincidir con la que se usó para entrenar el modelo, porque un `.joblib` solo es seguro de cargar con esa misma versión.
@@ -70,7 +70,7 @@ Las versiones de `mediapipe` y `scikit-learn` están fijadas en `requirements.tx
 ## Uso (usuario)
 
 ```bash
-python main.py
+python backend/main.py
 ```
 
 1. Pulsa **Iniciar** para activar la cámara.
@@ -85,7 +85,7 @@ python main.py
 ## Modo administrador (entrenar el modelo)
 
 ```bash
-python admin.py
+python backend/admin.py
 ```
 
 **Primera vez:** se te pide crear una contraseña (mínimo 8 caracteres). Se generan `clave_privada_admin.pem` (cifrada con tu contraseña) y `clave_publica.pem`.
@@ -119,7 +119,7 @@ Si se filtra la clave privada: genera claves nuevas, vuelve a firmar el modelo y
 
 | Problema | Posible solución |
 |---|---|
-| "El modelo no tiene una firma válida" | El `.joblib` y el `.sig` no corresponden. Descarga ambos de nuevo, o entrena con `python admin.py`. |
+| "El modelo no tiene una firma válida" | El `.joblib` y el `.sig` no corresponden. Descarga ambos de nuevo, o entrena con `python backend/admin.py`. |
 | "No se encontró el modelo entrenado" | Falta `modelo_senas.joblib` en la carpeta del proyecto. |
 | No abre la cámara | Cierra otras aplicaciones que la usen. Si tienes varias cámaras, cambia el índice en `cv2.VideoCapture(0)` (en `interfaz.py`). |
 | `AttributeError: module 'mediapipe' has no attribute 'solutions'` | Instala la versión fijada: `pip install mediapipe==0.10.14`. |

@@ -4,8 +4,8 @@ import os
 # Carpeta del proyecto: las rutas funcionan en cualquier equipo/clon del repositorio
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-RUTA_DATASET = r"C:\Users\casan\OneDrive\Desktop\Senas_traductor\dataset_senas.csv"
-RUTA_MODELO = r"C:\Users\casan\OneDrive\Desktop\Senas_traductor\modelo_senas.joblib"   # modelo entrenado (lo usa todo el mundo)
+RUTA_DATASET = os.path.join(BASE_DIR, "dataset_senas.csv")
+RUTA_MODELO = os.path.join(BASE_DIR, "modelo_senas.joblib")  # modelo entrenado   # modelo entrenado (lo usa todo el mundo)
 UMBRAL_CONFIANZA = 0.60                 # por debajo de esto se muestra "?"
 MIN_MUESTRAS_POR_LETRA = 10             # mínimo para poder entrenar/evaluar
 NUM_CARACTERISTICAS = 63                # 21 landmarks x (x, y, z)
