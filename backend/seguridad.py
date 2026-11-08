@@ -1,20 +1,18 @@
 """
-Seguridad del proyecto.
+Seguridad del lado del ADMINISTRADOR: contraseña, claves y firma del modelo.
 
-1. Acceso de administrador: la clave privada (Ed25519) se guarda CIFRADA con la
-   contraseña del administrador. Si la contraseña es incorrecta, no se puede
-   descifrar la clave y no se puede entrenar ni firmar modelos.
-2. Integridad del modelo: cada modelo entrenado se firma con esa clave privada.
-   La app del usuario verifica la firma con la clave pública ANTES de cargar el
-   modelo. Esto es importante porque los archivos .joblib (pickle) pueden ejecutar
-   código arbitrario al cargarse: un modelo alterado en git sería un riesgo real.
+Este archivo NO se incluye en el ejecutable del usuario: main.py no lo
+importa en ningún punto de su cadena de importaciones (importa
+interfaz_usuario -> deteccion -> verificacion, nunca este módulo).
+La comprobación de la firma (sin ninguna clave privada) vive en
+verificacion.py, que sí viaja con el programa del usuario.
 """
 import os
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-from cryptography.exceptions import InvalidSignature
 
-from config import (RUTA_MODELO, RUTA_FIRMA, RUTA_CLAVE_PUBLICA, RUTA_CLAVE_PRIVADA)
+from config import RUTA_MODELO, RUTA_FIRMA, RUTA_CLAVE_PUBLICA, RUTA_CLAVE_PRIVADA
+from verificacion import firma_valida, modelo_firmado_valido  # reexportadas para admin.py
 
 
 # ---------------- Administrador ----------------
@@ -53,23 +51,3 @@ def firmar_archivo_modelo(clave_privada):
         datos = f.read()
     with open(RUTA_FIRMA, "wb") as f:
         f.write(clave_privada.sign(datos))
-
-
-def firma_valida(datos_modelo):
-    """True solo si la firma existe y corresponde exactamente a estos bytes del modelo."""
-    try:
-        with open(RUTA_CLAVE_PUBLICA, "rb") as f:
-            clave_publica = serialization.load_pem_public_key(f.read())
-        with open(RUTA_FIRMA, "rb") as f:
-            firma = f.read()
-        clave_publica.verify(firma, datos_modelo)
-        return True
-    except (OSError, ValueError, InvalidSignature):
-        return False
-
-
-def modelo_firmado_valido():
-    if not os.path.exists(RUTA_MODELO):
-        return False
-    with open(RUTA_MODELO, "rb") as f:
-        return firma_valida(f.read())
