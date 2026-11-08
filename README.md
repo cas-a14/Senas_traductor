@@ -146,3 +146,7 @@ Si se filtra la clave privada: genera claves nuevas, vuelve a firmar el modelo y
 - Reconocimiento de se√±as con movimiento (secuencias de fotogramas).
 - Reconocimiento de palabras y frases.
 - Pruebas autom√°ticas y medici√≥n formal de exactitud con personas distintas a las del entrenamiento.
+
+## Descargar el ejecutable
+Puedes descargar la versiÛn lista para usar en Windows desde la secciÛn de **[Releases](https://github.com/cas-a14/Senas_traductor/releases)**.
+Solo descomprime el archivo ZIP y ejecuta `DetectorSenas.exe`.
