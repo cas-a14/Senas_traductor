@@ -43,19 +43,27 @@ class ClasificadorSenas:
         """Carga el modelo SOLO si su firma digital es válida (clave embebida)."""
         self.modelo = None
         self.error_modelo = None
+        
+        # 1. Verificar si el archivo existe
         if not os.path.exists(RUTA_MODELO):
+            self.error_modelo = "No se encontró el archivo del modelo."
             return
+            
         try:
             with open(RUTA_MODELO, "rb") as f:
                 datos = f.read()
+                
+            # 2. Verificar la firma digital
             if not verificacion.firma_valida(datos):
                 self.error_modelo = ("El modelo no tiene una firma válida y no se cargó. "
                                      "Descargue de nuevo la versión oficial del programa.")
                 return
-            # Se carga desde los mismos bytes verificados (evita que cambien tras verificar)
+                
+            # 3. Cargar el modelo
             self.modelo = joblib.load(io.BytesIO(datos))
+            
         except Exception as error:
-            print("No se pudo cargar el modelo:", error)
+            print("Error al cargar el modelo:", error)
             self.error_modelo = "No se pudo cargar el modelo."
             self.modelo = None
 
@@ -70,8 +78,12 @@ class ClasificadorSenas:
             caracteristicas = extraer_caracteristicas(puntos_mano).reshape(1, -1)
             probabilidades = self.modelo.predict_proba(caracteristicas)[0]
             indice = int(np.argmax(probabilidades))
-            if probabilidades[indice] >= UMBRAL_CONFIANZA:
-                return str(self.modelo.classes_[indice])
+            
+            confianza = probabilidades[indice]
+            letra = str(self.modelo.classes_[indice])
+            
+            if confianza >= UMBRAL_CONFIANZA:
+                return letra
         except Exception as error:
             print("Error al predecir:", error)
         return "?"
