@@ -148,5 +148,5 @@ Si se filtra la clave privada: genera claves nuevas, vuelve a firmar el modelo y
 - Pruebas automáticas y medición formal de exactitud con personas distintas a las del entrenamiento.
 
 ## Descargar el ejecutable
-Puedes descargar la versi�n lista para usar en Windows desde la secci�n de **[Releases](https://github.com/cas-a14/Senas_traductor/releases)**.
+Puedes descargar la versión lista para usar en Windows desde la sección de **[Releases](https://github.com/cas-a14/Senas_traductor/releases)**.
 Solo descomprime el archivo ZIP y ejecuta `DetectorSenas.exe`.
