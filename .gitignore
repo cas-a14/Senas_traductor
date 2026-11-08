@@ -17,3 +17,6 @@ clave_privada_admin.pem
 !clave_publica.pem
 
 # La firma del modelo (modelo_senas.joblib.sig) y clave_publica.pem SÍ se suben.
+
+ejecutable/_internal/
+ejecutable/*.exe
