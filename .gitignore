@@ -20,3 +20,8 @@ clave_privada_admin.pem
 
 ejecutable/_internal/
 ejecutable/*.exe
+
+# Archivos temporales de PyInstaller
+build/
+dist/
+*.spec
