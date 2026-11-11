@@ -25,3 +25,4 @@ ejecutable/*.exe
 build/
 dist/
 *.spec
+backend/clave_publica.pem
